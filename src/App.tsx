@@ -7,7 +7,7 @@ function App() {
   return (
 
     <CounterContextProvider>
-    <Layout title={<h1>Learn react ts</h1>}>
+    <Layout title={"Learn react ts"}>
     <Counter>
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem amet perferendis architecto? At molestiae modi, nisi nulla laborum sit error aliquid quae dolore, mollitia ratione molestias, aliquam voluptatum laboriosam quibusdam!
