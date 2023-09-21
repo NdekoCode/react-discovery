@@ -12,7 +12,6 @@ type Props = PropsWithChildren<{
   titleTag?: keyof JSX.IntrinsicElements | ComponentType<PropsWithChildren>;
 }>;
 export default function Layout({
-  children,
   title = "Compteur",
   titleTag: Title = "h1",
 }: Props) {
@@ -20,6 +19,7 @@ export default function Layout({
     <>
       <Header />
       <main className="container mt-5">
+        <Title>{title}</Title>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -30,7 +30,6 @@ export default function Layout({
           </Route>
           <Route path="/contact" element={<Contact />} />
         </Routes>
-        <Title>{title}</Title>
         <Outlet />
       </main>
     </>
