@@ -16,8 +16,10 @@ const Form: FunctionComponent = () => {
   };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(new FormData(e.currentTarget));
-    console.log(e);
+    const form = new FormData(e.currentTarget);
+    const value: string = form.get("firstName") as string;
+    setFirstName(value);
+    console.log(form);
   };
   const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false);
 
@@ -35,7 +37,7 @@ const Form: FunctionComponent = () => {
       </div>
       <CheckGenderForward ref={input} />
       <CGUChecked checked={isTermsAccepted} onChecked={setIsTermsAccepted} />
-      <button type="button" disabled={!isTermsAccepted} className="btn">
+      <button type="submit" disabled={!isTermsAccepted} className="btn">
         Valider
       </button>
     </form>

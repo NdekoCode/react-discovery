@@ -9,16 +9,19 @@ import {
   useState,
 } from "react";
 
-const CounterContext = createContext({
-  counter: 0,
-  increment: () => {},
-  decrement: () => {},
-});
+type CounterContextProps = {
+  counter: number;
+  increment: () => void;
+  decrement: () => void;
+};
+
 type Props = PropsWithChildren<{ start?: number; step?: number }>;
+
+const CounterContext = createContext<CounterContextProps | null>(null);
+
 const CounterContextProvider: FunctionComponent<Props> = memo(
   ({ children, start = 0, step = 1 }) => {
     const [counter, setCounter] = useState<number>(start);
-
     const increment = useCallback(() => setCounter((n) => n + step), [step]);
     const decrement = useCallback(
       () => setCounter((n) => (n > step ? n - step : 0)),
@@ -37,5 +40,13 @@ const CounterContextProvider: FunctionComponent<Props> = memo(
     );
   }
 );
-export const useCounterContext = () => useContext(CounterContext);
+export const useCounterContext = () => {
+  const value = useContext(CounterContext);
+  if (value === null) {
+    throw Error(
+      "Vous devez entourer ce composant d'un <CounterContextProvider />"
+    );
+  }
+  return value;
+};
 export default CounterContextProvider;
