@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
-import Button from "./components/Button";
-import { useCounterContext } from "./context/CounterContext";
+import { useCounterContext } from "../context/CounterContext";
+import Button from "./Button";
 export type CounterProps = PropsWithChildren<{
   start?: number;
 }>;

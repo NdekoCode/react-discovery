@@ -6,6 +6,9 @@ export default {
     "node_modules/preline/dist/*.js",
   ],
   theme: {
+    container: {
+      center: true,
+    },
     extend: {},
   },
   // eslint-disable-next-line no-undef
