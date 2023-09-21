@@ -6,6 +6,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
+import TemperatureConverter from "./pages/TemperatureConverter";
 type Props = PropsWithChildren<{
   title?: ReactNode;
   titleTag?: keyof JSX.IntrinsicElements | ComponentType<PropsWithChildren>;
@@ -22,6 +23,7 @@ export default function Layout({
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/temperature" element={<TemperatureConverter />} />
           <Route path="/blog">
             <Route index element={<Blog />} />
             <Route path=":title" element={<BlogPost />} />
