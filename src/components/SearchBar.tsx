@@ -1,14 +1,21 @@
-import { FormEvent, FunctionComponent } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent } from "react";
 type SearchBarProps = {
   inStock: boolean;
+  search: string;
   onCheck: (e: FormEvent<HTMLInputElement>) => void;
+  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 // ! ||--------------------------------------------------------------------------------||
 // ! ||                                Bar de recherche                                ||
 // ! ||--------------------------------------------------------------------------------||
-const SearchBar: FunctionComponent<SearchBarProps> = ({ inStock, onCheck }) => {
+const SearchBar: FunctionComponent<SearchBarProps> = ({
+  inStock,
+  onCheck,
+  onSearch,
+  search,
+}) => {
   return (
-    <form action="">
+    <form action="" onSubmit={(e) => e.preventDefault()}>
       <div className="mb-3">
         <label
           htmlFor="hs-trailing-button-add-on-with-icon-and-button"
@@ -18,11 +25,13 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({ inStock, onCheck }) => {
         </label>
         <div className="relative flex rounded-md shadow-sm">
           <input
-            type="text"
+            type="search"
+            value={search}
             id="hs-trailing-button-add-on-with-icon-and-button"
             name="hs-trailing-button-add-on-with-icon-and-button"
             className="block w-full px-4 py-3 text-sm transition border border-transparent border-gray-200 shadow-sm outline-none pl-11 rounded-l-md focus:z-10 focus:border-blue-500 focus:ring-blue-500 "
             placeholder="Rechercher..."
+            onChange={onSearch}
           />
           <div className="absolute inset-y-0 left-0 z-20 flex items-center pl-4 pointer-events-none">
             <svg

@@ -1,4 +1,4 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { PRODUCTS } from "../utils/constants";
 import { FilteredSimpleProduct, SimpleProduct } from "../utils/types";
 import ProductTable from "./ProductTable";
@@ -6,12 +6,28 @@ import SearchBar from "./SearchBar";
 
 const FilterableProductTable: FunctionComponent = () => {
   const [inStock, setInStock] = useState(false);
+  const [search, setSearch] = useState("");
   const handleInStock: (e: FormEvent<HTMLInputElement>) => void = (e) => {
     setInStock(e.currentTarget.checked);
   };
-  const products: SimpleProduct[] = PRODUCTS;
+  const handleSearch: (e: ChangeEvent<HTMLInputElement>) => void = (e) => {
+    setSearch(e.target.value);
+  };
+  let iterationsProduct: SimpleProduct[] = PRODUCTS;
+  if (search) {
+    iterationsProduct = iterationsProduct.filter((product) =>
+      product.name.toLowerCase().includes(search.toLocaleLowerCase())
+    );
+  } else {
+    iterationsProduct = PRODUCTS;
+  }
+
+  if (inStock) {
+    iterationsProduct = iterationsProduct.filter((product) => product.stocked);
+  }
+
   const filteredProducts: FilteredSimpleProduct[] = [];
-  for (const product of products) {
+  for (const product of iterationsProduct) {
     const category: string = product.category;
     const existingCategory = filteredProducts.find(
       (p) => p.category === category
@@ -37,7 +53,12 @@ const FilterableProductTable: FunctionComponent = () => {
   }
   return (
     <section>
-      <SearchBar inStock={inStock} onCheck={handleInStock} />
+      <SearchBar
+        inStock={inStock}
+        search={search}
+        onSearch={handleSearch}
+        onCheck={handleInStock}
+      />
       <ProductTable products={filteredProducts} />
     </section>
   );
