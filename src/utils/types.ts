@@ -6,3 +6,9 @@ export type AlertProps = {
 };
 
 export type ScaleType = "c" | "f";
+export type SimpleProduct = {
+  category: string;
+  price: string;
+  stocked: boolean;
+  name: string;
+};

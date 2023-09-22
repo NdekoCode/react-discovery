@@ -29,6 +29,9 @@ const Navbar: FunctionComponent = () => {
           <NavLink className="font-medium" to="/blog" aria-current="page">
             Blog
           </NavLink>
+          <NavLink className="font-medium" to="/product" aria-current="page">
+            Produits
+          </NavLink>
           <NavLink className="font-medium" to="/about" aria-current="page">
             A propos
           </NavLink>
@@ -119,12 +122,6 @@ const Navbar: FunctionComponent = () => {
               </NavLink>
             </div>
           </div>
-          <NavLink
-            className="font-medium text-gray-600 hover:text-gray-400 "
-            to="#"
-          >
-            Liens utile
-          </NavLink>
         </div>
       </div>
     </nav>
