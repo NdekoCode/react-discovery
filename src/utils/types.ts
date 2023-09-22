@@ -4,3 +4,5 @@ export type AlertProps = {
   title: string;
   message: string;
 };
+
+export type ScaleType = "c" | "f";
