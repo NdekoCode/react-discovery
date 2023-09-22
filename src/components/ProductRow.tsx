@@ -1,13 +1,23 @@
-const ProductRow = () => {
+import { FunctionComponent } from "react";
+import { ProductFilter } from "../utils/types";
+
+type ProductRowProps = {
+  product: ProductFilter;
+};
+const ProductRow: FunctionComponent<ProductRowProps> = ({ product }) => {
   return (
     <article className="flex flex-col transition bg-white border shadow-sm group rounded-xl hover:shadow-md ">
       <div className="p-4 md:p-5">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-gray-800 group-hover:text-blue-600 ">
-              Management
+            <h3
+              className={`font-semibold text-${
+                product.stocked ? "gray" : "red"
+              }-800 group-hover:text-blue-600`}
+            >
+              {product.name}
             </h3>
-            <p className="text-sm text-gray-500">4 job positions</p>
+            <p className="text-sm text-gray-500">{product.price}</p>
           </div>
           <div className="pl-3">
             <svg

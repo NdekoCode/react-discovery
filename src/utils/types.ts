@@ -12,3 +12,12 @@ export type SimpleProduct = {
   stocked: boolean;
   name: string;
 };
+export type FilteredSimpleProduct = {
+  category: string;
+  products: ProductFilter[];
+};
+export type ProductFilter = {
+  price: string;
+  stocked: boolean;
+  name: string;
+};
