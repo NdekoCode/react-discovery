@@ -1,10 +1,14 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, memo } from "react";
 import { ProductFilter } from "../utils/types";
 
 type ProductRowProps = {
   product: ProductFilter;
 };
-const ProductRow: FunctionComponent<ProductRowProps> = ({ product }) => {
+// un composant pure c'est un composant qui ne sera rendus que si son ETAT ou ses PROPRIETER changent
+// Si l'un de ces deux elements changent alors il refait un rendus du DOM si aucun ne change alors il ne faira aucun rendus
+const ProductRow: FunctionComponent<ProductRowProps> = memo(({ product }) => {
+  //   wait(500);
+  console.log("render");
   return (
     <article className="flex flex-col transition bg-white border shadow-sm group rounded-xl hover:shadow-md ">
       <div className="p-4 md:p-5">
@@ -39,5 +43,5 @@ const ProductRow: FunctionComponent<ProductRowProps> = ({ product }) => {
       </div>
     </article>
   );
-};
+});
 export default ProductRow;

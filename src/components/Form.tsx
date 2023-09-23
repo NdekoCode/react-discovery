@@ -19,11 +19,12 @@ const Form: FunctionComponent = () => {
     const form = new FormData(e.currentTarget);
     const value: string = form.get("firstName") as string;
     setFirstName(value);
-    console.log(form);
+    console.log(form, lastNameInput.current?.value);
   };
   const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false);
 
   const input = useRef<HTMLInputElement>(null);
+  const lastNameInput = useRef<HTMLInputElement>(null);
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -32,9 +33,17 @@ const Form: FunctionComponent = () => {
           className="p-2 border border-gray-100 rounded shadow outline-none shadow-gray-50"
           name="firstName"
           defaultValue={firstName}
+          onChange={handleValue}
         />
         {firstName}
       </div>
+      <InputField
+        ref={lastNameInput}
+        name="lastName"
+        type="text"
+        placeholder="Entrer votre nom"
+        label="Nom"
+      />
       <CheckGenderForward ref={input} />
       <CGUChecked checked={isTermsAccepted} onChecked={setIsTermsAccepted} />
       <button type="submit" disabled={!isTermsAccepted} className="btn">
@@ -71,18 +80,18 @@ const CGUChecked: FunctionComponent<CheckProps> = ({
   );
 };
 
-const CheckGender: FunctionComponent = () => {
+const CheckGender = forwardRef<HTMLInputElement>((props, ref) => {
   return (
     <div className="flex items-center gap-1">
       <label htmlFor="gender-f" className="">
-        <input type="radio" ref={input} name="gender" id="gender-f" /> Female
+        <input type="radio" ref={ref} name="gender" id="gender-f" /> Female
       </label>
       <label htmlFor="gender-m" className="">
-        <input type="radio" ref={input} name="gender" id="gender-m" /> Male
+        <input type="radio" ref={ref} name="gender" id="gender-m" /> Male
       </label>
     </div>
   );
-};
+});
 
 // On typer d'abord la ref puis les props alors que les paramètres sont dans l'autre sens
 const CheckGenderForward = forwardRef<HTMLInputElement>((props, ref) => {
@@ -97,5 +106,29 @@ const CheckGenderForward = forwardRef<HTMLInputElement>((props, ref) => {
     </div>
   );
 });
+const InputField = forwardRef<
+  HTMLInputElement,
+  { type: string; name: string; label: string; placeholder: string }
+>(({ name, label, placeholder, type }, ref) => {
+  return (
+    <div>
+      <label
+        htmlFor={`input-label-${name}`}
+        className="block mb-2 text-sm font-medium "
+      >
+        {label}
+      </label>
+      <input
+        type={type}
+        ref={ref}
+        id={`input-label-${name}`}
+        className="block w-full px-4 py-3 text-sm border border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 "
+        name={name}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+});
+InputField.displayName = "InputField";
 CheckGenderForward.displayName = "CheckGenderForward";
 export default Form;
