@@ -122,7 +122,7 @@ const InputField = forwardRef<
         type={type}
         ref={ref}
         id={`input-label-${name}`}
-        className="block w-full px-4 py-3 text-sm border border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 "
+        className="block w-full px-4 py-3 text-sm transition border border-gray-200 rounded-md outline-none focus:border-blue-500 focus:ring-blue-500 "
         name={name}
         placeholder={placeholder}
       />

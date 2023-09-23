@@ -3,11 +3,10 @@ import {
   PropsWithChildren,
   createContext,
   memo,
-  useCallback,
   useContext,
   useMemo,
-  useState,
 } from "react";
+import { useIncrement } from "../hooks/useIncrement";
 
 type CounterContextProps = {
   counter: number;
@@ -21,12 +20,7 @@ const CounterContext = createContext<CounterContextProps | null>(null);
 
 const CounterContextProvider: FunctionComponent<Props> = memo(
   ({ children, start = 0, step = 1 }) => {
-    const [counter, setCounter] = useState<number>(start);
-    const increment = useCallback(() => setCounter((n) => n + step), [step]);
-    const decrement = useCallback(
-      () => setCounter((n) => (n > step ? n - step : 0)),
-      [step]
-    );
+    const [counter, increment, decrement] = useIncrement(start, step);
 
     const value = useMemo(
       () => ({ counter, increment, decrement }),
