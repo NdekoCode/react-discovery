@@ -21,3 +21,18 @@ export type ProductFilter = {
   stocked: boolean;
   name: string;
 };
+
+export type Todo = {
+  userId: number | string;
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
+export type ReducerType = {
+  type: string;
+};
+export type CounterState = {
+  count: number;
+  step: number;
+};

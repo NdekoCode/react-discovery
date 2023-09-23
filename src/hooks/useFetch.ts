@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export const useFetch = async <T>(
   url: string,
@@ -10,9 +10,11 @@ export const useFetch = async <T>(
   try {
     const res = await fetch(url);
     const resData = await res.json();
-    setter(resData);
-    setData(resData);
-    setIsLoading(false);
+    if (res.ok) {
+      setter(resData);
+      setData(resData);
+      setIsLoading(false);
+    }
 
     return [isLoading, data];
   } catch (error) {
@@ -20,3 +22,29 @@ export const useFetch = async <T>(
     setIsLoading(false);
   }
 };
+export function useGetFetch<T>(
+  url: string,
+  params: RequestInit | undefined = undefined
+) {
+  const [state, setState] = useState<{ items: T[]; loading: boolean }>({
+    items: [],
+    loading: true,
+  });
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(url, params);
+        const resData = await res.json();
+        if (res.ok) {
+          setState((d) => ({ ...d, items: resData, loading: false }));
+        } else {
+          console.error(resData);
+          setState((d) => ({ ...d, loading: false }));
+        }
+      } catch (e) {
+        setState((d) => ({ ...d, loading: false }));
+      }
+    })();
+  }, []);
+  return [state.loading, state.items];
+}

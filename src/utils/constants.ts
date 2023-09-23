@@ -30,3 +30,7 @@ export const PRODUCTS: SimpleProduct[] = [
   { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
   { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
 ];
+export const encoded = (value: number) => {
+  wait(500);
+  return Date.now() * value;
+};

@@ -4,16 +4,24 @@ import {
   FunctionComponent,
   SetStateAction,
   forwardRef,
+  useMemo,
   useRef,
   useState,
 } from "react";
+import { encoded } from "../utils/constants";
 
 const Form: FunctionComponent = () => {
   const [firstName, setFirstName] = useState<string>("John");
+  const [age, setAge] = useState<number>(25);
+  const handleAge = (e: FormEvent<HTMLInputElement>) => {
+    const value = +e.currentTarget?.value;
+    setAge(value);
+  };
   const handleValue = (e: FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setFirstName(value);
   };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -21,12 +29,26 @@ const Form: FunctionComponent = () => {
     setFirstName(value);
     console.log(form, lastNameInput.current?.value);
   };
+
   const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false);
 
   const input = useRef<HTMLInputElement>(null);
+
   const lastNameInput = useRef<HTMLInputElement>(null);
+
+  const encodedAge = useMemo(() => encoded(age), [age]);
   return (
     <form onSubmit={handleSubmit}>
+      <div>
+        <input
+          type="number"
+          className="p-2 border border-gray-100 rounded shadow outline-none shadow-gray-50"
+          name="age"
+          defaultValue={age}
+          onChange={handleAge}
+        />
+        {encodedAge}
+      </div>
       <div>
         <input
           type="text"
