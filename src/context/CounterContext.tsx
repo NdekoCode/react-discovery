@@ -6,7 +6,7 @@ import {
   useContext,
   useMemo,
 } from "react";
-import { useIncrement } from "../hooks/useIncrement";
+import { useAutoIncrement } from "../hooks/useIncrement";
 
 type CounterContextProps = {
   counter: number;
@@ -20,7 +20,7 @@ const CounterContext = createContext<CounterContextProps | null>(null);
 
 const CounterContextProvider: FunctionComponent<Props> = memo(
   ({ children, start = 0, step = 1 }) => {
-    const [counter, increment, decrement] = useIncrement(start, step);
+    const [counter, increment, decrement] = useAutoIncrement(start, step);
 
     const value = useMemo(
       () => ({ counter, increment, decrement }),
