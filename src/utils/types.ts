@@ -1,3 +1,5 @@
+import { ChangeEvent, PropsWithChildren } from "react";
+
 export type AlertType = "success" | "danger" | "infos" | "warning";
 export type AlertProps = {
   type: AlertType;
@@ -36,3 +38,9 @@ export type CounterState = {
   count: number;
   step: number;
 };
+
+export type InputBoxType = PropsWithChildren<{
+  placeholder?: string;
+  value: string | boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}>;
