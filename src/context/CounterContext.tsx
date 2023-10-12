@@ -24,7 +24,7 @@ const CounterContextProvider: FunctionComponent<Props> = memo(
 
     const value = useMemo(
       () => ({ counter, increment, decrement }),
-      [counter, increment, decrement]
+      [counter]
     );
 
     return (

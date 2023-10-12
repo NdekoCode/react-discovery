@@ -1,20 +1,29 @@
 import { FunctionComponent, PropsWithChildren } from "react";
-import { useGetFetch } from "../hooks/useFetch";
+import { useFetch } from "../hooks/useFetch";
 import { Todo } from "../utils/types";
 type TodoProps = PropsWithChildren<{ todos: Todo[] }>;
 const Todos: FunctionComponent<TodoProps> = () => {
-  const [isLoading, todos] = useGetFetch(
+  const [isLoading, todos, errors] = useFetch<Todo[]>(
     "https://jsonplaceholder.typicode.com/todos"
   );
 
   return (
     <div>
+      {(errors as Error) && (
+        <div
+          className="p-4 text-sm text-red-600 border border-red-200 rounded-md bg-red-50"
+          role="alert"
+        >
+          <span className="font-bold">Danger</span>{" "}
+          {(errors as Error).toString()}
+        </div>
+      )}
       {isLoading ? (
         <p>Loading</p>
       ) : (
         <div>
           <ul className="space-y-3 text-sm">
-            {(todos as Todo[]).map((todo: Todo) => (
+            { (todos as Todo[]) && (todos as Todo[]).map((todo: Todo) => (
               <li className="flex space-x-3" key={todo.id}>
                 <svg
                   className="flex-shrink-0 w-6 h-6"

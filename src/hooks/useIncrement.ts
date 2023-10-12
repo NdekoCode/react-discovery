@@ -32,7 +32,6 @@ export function useAutoIncrement(
 ): [counter: number, increment: () => void, decrement: () => void] {
   const [count, increment, decrement] = useIncrement(initialValue, step);
   useEffect(() => {
-    console.log("increment");
     const timer = window.setInterval(increment, 1000);
     return () => window.clearInterval(timer);
   }, [increment]);
