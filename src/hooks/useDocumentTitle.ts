@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const useDocumentTitle = (title:string)=>{
+
+    const originalTitle = useRef(document.title);
     useEffect(()=>{
-        const originalTitle = document.title;
         return ()=>{
-            document.title = originalTitle;
+            document.title = originalTitle.current;
         }
     },[])
     useEffect(()=>{
-        document.title =title;
+            document.title =title.trim().length>1 ? title : originalTitle.current;
     },[title]);
 }
