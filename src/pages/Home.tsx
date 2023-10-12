@@ -1,8 +1,11 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import Counter from "../components/Counter";
 import CounterContextProvider from "../context/CounterContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 const Home: FunctionComponent = () => {
+  const [name] = useState('Ndekocode');
+  useDocumentTitle('Editer '+name);
   return (
     <CounterContextProvider>
       <Counter>

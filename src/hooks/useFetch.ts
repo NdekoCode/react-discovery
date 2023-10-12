@@ -13,8 +13,8 @@ export const useFetch = async <T>(
     if (res.ok) {
       setter(resData);
       setData(resData);
-      setIsLoading(false);
     }
+    setIsLoading(false);
 
     return [isLoading, data];
   } catch (error) {

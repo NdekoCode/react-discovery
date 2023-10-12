@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from "react";
 type toggleType = (
-  value?: null | MouseEvent<HTMLButtonElement> | undefined
+  value?: null | MouseEvent<HTMLButtonElement> | undefined|boolean
 ) => void;
 export function useToggle(): [boolean, (value?: null) => void] {
   const [isActive, setIsToggle] = useState(false);
