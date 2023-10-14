@@ -1,10 +1,10 @@
 import {
-  FunctionComponent,
+  FC,
   PropsWithChildren,
   createContext,
   memo,
   useContext,
-  useMemo,
+  useMemo
 } from "react";
 import { useAutoIncrement } from "../hooks/useIncrement";
 
@@ -14,11 +14,11 @@ type CounterContextProps = {
   decrement: () => void;
 };
 
-type Props = PropsWithChildren<{ start?: number; step?: number }>;
+type ProviderProps = PropsWithChildren<{ start?: number; step?: number }>;
 
 const CounterContext = createContext<CounterContextProps | null>(null);
 
-const CounterContextProvider: FunctionComponent<Props> = memo(
+const CounterContextProvider: FC<ProviderProps> = memo(
   ({ children, start = 0, step = 1 }) => {
     const [counter, increment, decrement] = useAutoIncrement(start, step);
 
@@ -37,7 +37,7 @@ const CounterContextProvider: FunctionComponent<Props> = memo(
 export const useCounterContext = () => {
   const value = useContext(CounterContext);
   if (value === null) {
-    throw Error(
+    throw new Error(
       "Vous devez entourer ce composant d'un <CounterContextProvider />"
     );
   }
