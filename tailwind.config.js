@@ -12,5 +12,5 @@ export default {
     extend: {},
   },
   // eslint-disable-next-line no-undef
-  plugins: [require("preline/plugin")],
+  plugins: [require("preline/plugin"),require('@tailwindcss/typography')],
 };

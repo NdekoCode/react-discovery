@@ -77,3 +77,7 @@
 .fill-green-500 {
     fill: #22c55e;
 }
+
+.list-active {
+    @apply bg-blue-500 text-white transition-colors duration-200;
+}

@@ -35,6 +35,9 @@ const Navbar: FunctionComponent = () => {
           <NavLink className="font-medium" to="/about" aria-current="page">
             A propos
           </NavLink>
+          <NavLink className="font-medium" to="/contact" aria-current="page">
+            Contact
+          </NavLink>
           <div className="hs-dropdown [--strategy:static] sm:[--strategy:absolute] [--adaptive:none] sm:[--trigger:hover]">
             <button
               id="hs-mega-menu-basic-dr"

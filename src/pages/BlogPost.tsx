@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import UsersList from "./UsersList";
 
 const BlogPost: FunctionComponent = () => {
   const [message, setMessage] = useState<string>("");
@@ -12,6 +13,8 @@ const BlogPost: FunctionComponent = () => {
   return (
     <div>
       <h1>{message}</h1>
+
+      <UsersList/>
     </div>
   );
 };

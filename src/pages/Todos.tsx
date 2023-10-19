@@ -1,6 +1,7 @@
 import {
   FormEvent,
   FunctionComponent,
+  MouseEvent,
   PropsWithChildren,
   useEffect,
   useRef,
@@ -9,7 +10,7 @@ import {
 import { useFetch } from "../hooks/useFetch";
 import { useTodos } from "../hooks/useTodos";
 import { Todo } from "../utils/types";
-type TodoProps = PropsWithChildren<{ todos: Todo[] }>;
+type TodoProps = PropsWithChildren<{ todos?: Todo[] }>;
 const Todos: FunctionComponent<TodoProps> = () => {
   const [isLoading, todos, errors] = useFetch<Todo[]>(
     "https://jsonplaceholder.typicode.com/todos"
@@ -17,7 +18,6 @@ const Todos: FunctionComponent<TodoProps> = () => {
   const newTodoRef = useRef<HTMLInputElement>(null);
   const {
     todosState,
-    allCompleted,
     deleteTodo,
     toggleTodo,
     addTodo,
@@ -58,7 +58,7 @@ const Todos: FunctionComponent<TodoProps> = () => {
               <form action="POST" onSubmit={handleSubmit}>
                 <label
                   htmlFor="input-label"
-                  className="block text-sm font-medium mb-2 dark:text-white"
+                  className="block mb-2 text-sm font-medium dark:text-white"
                 >
                   Ajouter un todo
                 </label>
@@ -69,7 +69,7 @@ const Todos: FunctionComponent<TodoProps> = () => {
                   onChange={handleChange}
                   ref={newTodoRef}
                   name="todo"
-                  className="py-3 border px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                  className="block w-full px-4 py-3 text-sm border border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                   placeholder="Your todo"
                 />
               </form>

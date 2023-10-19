@@ -1,43 +1,20 @@
-import { ComponentType, PropsWithChildren, ReactNode } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
-import ErrorBoundary from "./components/ErrorBoundary";
+import { ComponentType, FC, PropsWithChildren, ReactNode } from "react";
+import { Outlet } from "react-router-dom";
+import "./app.scss";
 import Header from "./components/Header";
-import About from "./pages/About";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Contact from "./pages/Contact";
-import Home from "./pages/Home";
-import Product from "./pages/Product";
-import TemperatureConverter from "./pages/TemperatureConverter";
-import Todos from './pages/Todos';
 type Props = PropsWithChildren<{
   title?: ReactNode;
   titleTag?: keyof JSX.IntrinsicElements | ComponentType<PropsWithChildren>;
 }>;
-export default function Layout({
-  title = "Compteur",
-  titleTag: Title = "h1",
-}: Props) {
+
+export const Layout:FC<Props> = () =>{
   return (
     <>
       <Header />
       <main className="container mt-5">
-        <Title>{title}</Title>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/temperature" element={<TemperatureConverter />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/todos" element={<Todos />} />
-          
-          <Route path="/blog">
-            <Route index element={<ErrorBoundary><Blog /></ErrorBoundary>} />
-            <Route path=":title" element={<BlogPost />} />
-          </Route>
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <Outlet />
+        <Outlet/>
       </main>
     </>
   );
 }
+export default Layout;
