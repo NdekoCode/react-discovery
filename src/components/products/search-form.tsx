@@ -1,11 +1,18 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 
 export const SearchForm: FC<{
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  formData: { searchForm: string; isInStock: boolean };
+  formData: { searchForm: string; isInStock: boolean; rangePrice?: number };
 }> = ({ formData, handleChange }) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   return (
-    <form action="" className="flex flex-col gap-2.5 w-full mb-3">
+    <form
+      action=""
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-2.5 w-full mb-3"
+    >
       <div className="w-full">
         <input
           type="search"
@@ -25,6 +32,19 @@ export const SearchForm: FC<{
           onChange={handleChange}
         />
         <span>Show only products in stock</span>
+      </label>
+
+      <label htmlFor="rangePrice" className="flex items-center gap-1">
+        <input
+          type="range"
+          name="rangePrice"
+          className="appearance-none [&::-webkit-slider-runnable-track]:bg-gray-200 [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-full"
+          id="rangePrice"
+          min={0}
+          max={10}
+          value={formData.rangePrice}
+          onChange={handleChange}
+        />
       </label>
     </form>
   );

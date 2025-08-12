@@ -9,7 +9,7 @@ const ProductRow: FC<{ product: Product }> = ({ product }) => {
       <td className={cn(product.stocked ? "text-gray-800" : "text-red-500")}>
         {product.name}
       </td>
-      <td>{product.price}</td>
+      <td>${product.price}</td>
     </tr>
   );
 };
