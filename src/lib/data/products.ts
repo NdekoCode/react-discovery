@@ -9,3 +9,16 @@ export const PRODUCTS: Product[] = [
   { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
   { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
 ];
+export const filterProducts = (
+  products: Product[],
+  formData: { searchForm: string; isInStock: boolean }
+) => {
+  const searchValue = formData.searchForm.trim().toLowerCase();
+  const matchSearch = (p: Product) =>
+    p.name.toLowerCase().includes(searchValue);
+  return products.filter(
+    (p) =>
+      (!formData.isInStock || p.stocked) &&
+      (searchValue.length < 0 || matchSearch(p))
+  );
+};

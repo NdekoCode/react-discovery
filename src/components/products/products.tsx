@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 
-import { PRODUCTS } from "@/lib/data/products";
+import { filterProducts, PRODUCTS } from "@/lib/data/products";
 
 import ProductTable from "./product-table";
 import { SearchForm } from "./search-form";
@@ -20,16 +20,7 @@ const Products = () => {
     console.log("Input", target, value);
     setFormData((prev) => ({ ...prev, [target.name]: value }));
   };
-  const products = PRODUCTS.filter((p) => {
-    const isInStock = formData.isInStock ? p.stocked : true;
-    const matchSearch =
-      formData.searchForm.trim().length > 0
-        ? p.name
-            .toLocaleLowerCase()
-            .includes(formData.searchForm.toLocaleLowerCase())
-        : true;
-    return isInStock && matchSearch;
-  });
+  const products = filterProducts(PRODUCTS, formData);
 
   return (
     <div className="border border-gray-300 rounded-md p-4">
