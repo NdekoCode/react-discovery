@@ -1,4 +1,11 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import {
+  FC,
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import { wait } from "@/utils/helpers";
 
@@ -9,11 +16,11 @@ const encodeNumber = (value: number) => {
 
   return (timestamp + random).substring(0, 16); // trim to desired length
 };
-export const Button = memo(function ({
-  handleClick,
-}: {
-  handleClick: () => void;
-}) {
+export const Button: FC<
+  PropsWithChildren<{
+    handleClick: () => void;
+  }>
+> = memo(function ({ handleClick, children }) {
   console.log("Button render");
   return (
     <div className="my-1">
@@ -21,7 +28,7 @@ export const Button = memo(function ({
         className="px-4 py-2 rounded bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600"
         onClick={handleClick}
       >
-        Mon boutton
+        {children}
       </button>
     </div>
   );
@@ -41,7 +48,7 @@ export function Encode() {
   console.log("Encoded render", encoded);
   return (
     <div>
-      <Button handleClick={handleClick} />
+      <Button handleClick={handleClick}>Encode</Button>
       <div>
         <button
           onClick={() => setCount((c) => c + 1)}

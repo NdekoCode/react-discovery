@@ -30,6 +30,7 @@ export const ThemeContextProvider: FC<PropsWithChildren<{}>> = memo(
       }),
       [theme]
     );
+    console.log(children);
     return (
       <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
     );

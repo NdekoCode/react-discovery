@@ -1,5 +1,6 @@
 import { Encode } from "./components/custom/block-render";
 import { ControlledInput } from "./components/custom/controlled-input";
+import { CustomForm } from "./components/custom/custom-form";
 import { Increment } from "./components/custom/increment";
 import { useTheme } from "./stores/contexts/theme-context";
 
@@ -21,6 +22,7 @@ function App() {
         <Increment />
         <Encode />
         <ControlledInput />
+        <CustomForm />
       </div>
     </div>
   );
