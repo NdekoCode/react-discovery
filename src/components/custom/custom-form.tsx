@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 
 import { Button } from "./block-render";
+import { PolicyAgreement } from "./policy-agreement";
 
 export const CustomForm = () => {
   console.log("render");
@@ -122,29 +123,18 @@ export const CustomForm = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email">Agree Licence</label>
-          <input
-            type="checkbox"
-            name="agreeLicence"
-            id="agreeLicence"
-            autoFocus
-            checked={formData.agreeLicence}
-            onChange={handleChange}
-            className="px-3 py-2.5"
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email">Agree Policy</label>
-          <input
-            type="checkbox"
-            name="agreePolicy"
-            id="agreePolicy"
-            checked={formData.agreePolicy}
-            onChange={handleChange}
-            className="px-3 py-2.5"
-          />
-        </div>
+        <PolicyAgreement
+          name="agreePolicy"
+          label="Agree Policy"
+          checked={formData.agreePolicy}
+          onChange={handleChange}
+        />
+        <PolicyAgreement
+          name="agreeLicence"
+          label="Agree Licence"
+          checked={formData.agreeLicence}
+          onChange={handleChange}
+        />
         <Button handleClick={handleClick}>Submit</Button>
       </form>
     </div>
