@@ -2,6 +2,7 @@ import { Encode } from "./components/custom/block-render";
 import { ControlledInput } from "./components/custom/controlled-input";
 import { CustomForm } from "./components/custom/custom-form";
 import { Increment } from "./components/custom/increment";
+import DecrementValue from "./components/products/decrement-value";
 import Products from "./components/products/products";
 import { useTheme } from "./stores/contexts/theme-context";
 
@@ -25,6 +26,7 @@ function App() {
         <ControlledInput />
         <CustomForm />
         <Products />
+        <DecrementValue />
       </div>
     </div>
   );
