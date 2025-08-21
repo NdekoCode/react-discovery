@@ -6,6 +6,7 @@ import { CustomForm } from "./components/custom/custom-form";
 import { Increment } from "./components/custom/increment";
 import { MemoData } from "./components/custom/memo-data";
 import RefDiscovery from "./components/custom/ref-discovery";
+import GetData from "./components/get-data";
 import DecrementValue from "./components/products/decrement-value";
 import Products from "./components/products/products";
 import { Input } from "./components/ui/input";
@@ -27,6 +28,7 @@ function App() {
       <h1>Hello React</h1>
       <p>THEME {theme}</p>
       <Input onChange={handleChange} />
+      <GetData />
       <button
         onClick={toggleTheme}
         className="px-4 w-fit py-2 rounded bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600"
