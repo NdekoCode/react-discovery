@@ -1,3 +1,4 @@
+import Page404 from "@/pages/404/page";
 import AboutPage from "@/pages/about/page";
 import Blog from "@/pages/blog/page";
 import ContactUsPage from "@/pages/contact/page";
@@ -12,7 +13,7 @@ export const useRenderPage = () => {
     contact: <ContactUsPage />,
     blog: <Blog />,
     home: <HomePage />,
-    default: <HomePage />,
+    default: <Page404 />,
   };
   return pagesMap[page as keyof typeof pagesMap] || pagesMap["default"];
 };
