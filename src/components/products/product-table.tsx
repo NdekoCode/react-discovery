@@ -8,6 +8,7 @@ import ProductRow from "./product-row";
 import ProductTableHeader from "./product-table-header";
 
 const ProductTable: FC<{ products: Product[] }> = ({ products }) => {
+  throw new Error("Call this");
   const productsRows = products.map((p, index) => (
     <Fragment key={index}>
       <CategoryRow category={p.category} />

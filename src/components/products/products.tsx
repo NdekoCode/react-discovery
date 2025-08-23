@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import { filterProducts, PRODUCTS } from "@/lib/data/products";
 import { FormData } from "@/lib/types/generics/product";
 
+import ErrorBoundary from "../error-boundary";
 import ProductTable from "./product-table";
 import { SearchForm } from "./search-form";
 
@@ -30,7 +31,9 @@ const Products = () => {
     <div className="border border-gray-300 rounded-md p-4">
       {JSON.stringify(formData, null, 2)}
       <SearchForm formData={formData} handleChange={handleChange} />
-      <ProductTable products={filteredProducts} />
+      <ErrorBoundary fallback={<p>Impossible to show table</p>}>
+        <ProductTable products={filteredProducts} />
+      </ErrorBoundary>
     </div>
   );
 };
