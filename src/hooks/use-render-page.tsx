@@ -1,0 +1,18 @@
+import AboutPage from "@/pages/about/page";
+import Blog from "@/pages/blog/page";
+import ContactUsPage from "@/pages/contact/page";
+import HomePage from "@/pages/home/page";
+
+import { useHashNavigation } from "./use-navigation-page";
+
+export const useRenderPage = () => {
+  const { page } = useHashNavigation();
+  const pagesMap = {
+    about: <AboutPage />,
+    contact: <ContactUsPage />,
+    blog: <Blog />,
+    home: <HomePage />,
+    default: <HomePage />,
+  };
+  return pagesMap[page as keyof typeof pagesMap] || pagesMap["default"];
+};
