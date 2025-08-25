@@ -1,13 +1,16 @@
-import PostCard from "@/components/post-card";
-import { useDocumentTitle } from "@/hooks/use-document-title";
+import React from "react";
+
 import { useFetch } from "@/hooks/use-fetch";
+import { useHashNavigation } from "@/hooks/use-navigation-page";
 import { Post } from "@/lib/types/generics/posts";
 
-export default function BlogPage() {
-  useDocumentTitle("Blog page");
-  const { data, loading } = useFetch<{ posts: Post[] }>(
-    "https://dummyjson.com/posts?limit=12"
+const PostPage = () => {
+  const { param } = useHashNavigation();
+  console.log("PARAM", param);
+  const { loading, data: post } = useFetch<Post>(
+    `https://dummyjson.com/posts/${param}`
   );
+
   if (loading)
     return (
       <div className="fixed inset-0 bg-black/10 flex items-center justify-center">
@@ -22,7 +25,7 @@ export default function BlogPage() {
         </div>
       </div>
     );
-  if (!loading && !data?.posts) {
+  if (!loading && !post) {
     return (
       <div className="min-h-60 flex flex-col">
         <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
@@ -51,36 +54,24 @@ export default function BlogPage() {
     );
   }
   return (
-    <section className="py-16 md:py-32 flex flex-col items-center justify-center">
-      <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
-        <h2 className="relative z-10 max-w-xl text-4xl font-medium lg:text-5xl">
-          Blog
-        </h2>
-        {/* Card Blog */}
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          {/* Title */}
-          <div className="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
-            <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-              Read our latest news
-            </h2>
-            <p className="mt-1 text-gray-600 dark:text-neutral-400">
-              We've helped some great companies brand, design and get to market.
-            </p>
-          </div>
-          {/* End Title */}
-
-          {/* Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 lg:mb-14">
-            {/* Card */}
-            {data?.posts.map((post) => (
-              <PostCard post={post} key={post.id} />
-            ))}
-            {/* End Card */}
-          </div>
-          {/* End Grid */}
-        </div>
-        {/* End Card Blog */}
+    <div className="container max-w-7xl mx-auto px-4 mt-5">
+      <div className="aspect-w-16 aspect-h-9">
+        <img
+          className="w-full rounded-2xl max-w-7xl max-h-96 mx-auto object-cover rounded-t-xl"
+          src={`https://picsum.photos/id/${post?.id}/4704/3136`}
+          alt={post?.title}
+        />
       </div>
-    </section>
+      <div className="p-4 md:p-5">
+        <p className="mt-2 text-xs uppercase text-gray-600 dark:text-neutral-400">
+          {post?.title}
+        </p>
+        <h3 className="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
+          {post?.body}
+        </h3>
+      </div>
+    </div>
   );
-}
+};
+
+export default PostPage;
