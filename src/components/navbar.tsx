@@ -1,4 +1,5 @@
 import { useHashNavigation } from "@/hooks/use-navigation-page";
+import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
   const { page } = useHashNavigation();
@@ -17,7 +18,10 @@ export const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  className={cn(
+                    "block py-2 px-3 rounded-sm md:p-0",
+                    page === "home" ? "text-blue-700 underline" : ""
+                  )}
                   aria-current="page"
                 >
                   Home
@@ -26,7 +30,10 @@ export const Navbar = () => {
               <li>
                 <a
                   href="#contact"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className={cn(
+                    "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
+                    page === "contact" ? "text-blue-700 underline" : ""
+                  )}
                 >
                   Contact
                 </a>
@@ -34,7 +41,10 @@ export const Navbar = () => {
               <li>
                 <a
                   href="#blog"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className={cn(
+                    "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
+                    page === "blog" ? "text-blue-700 underline" : ""
+                  )}
                 >
                   Blog
                 </a>
@@ -42,7 +52,10 @@ export const Navbar = () => {
               <li>
                 <a
                   href="#about"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className={cn(
+                    "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
+                    page === "about" ? "text-blue-700 underline" : ""
+                  )}
                 >
                   About
                 </a>
