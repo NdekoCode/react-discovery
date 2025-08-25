@@ -11,7 +11,7 @@ import { useDocumentTitle } from "../../hooks/use-document-title";
 import { useTheme } from "../../stores/contexts/theme-context";
 
 function HomePage() {
-  console.log("App render");
+  useDocumentTitle("Home page");
   const [title, setTitle] = useState("");
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
