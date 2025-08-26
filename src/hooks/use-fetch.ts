@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 
-export const useFetch = <T extends any>(
+import { useRefSync } from "./use-ref-sync";
+
+export const useFetch = <T>(
   url: string,
   options?: RequestInit
 ): { loading: boolean; errors: Error | null; data: T | null } => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<T | null>(null);
   const [errors, setErrors] = useState<Error | any>(null);
+  const optionsValue = useRefSync(options);
   const getData = async () => {
     try {
       setLoading(true);
       const response = await fetch(url, {
-        ...options,
+        ...optionsValue?.current,
         headers: {
           Accept: "application/json; charset=UTF-8",
-          ...options?.headers,
+          ...optionsValue?.current?.headers,
         },
       });
       if (response.ok && response.status === 200) {
@@ -29,7 +32,6 @@ export const useFetch = <T extends any>(
           type: response.type,
         });
       }
-      console.log(response);
     } catch (error) {
       setData(null);
       setErrors(error as Error);
@@ -41,7 +43,7 @@ export const useFetch = <T extends any>(
     (async () => {
       await getData();
     })();
-  }, []);
+  }, [url]);
 
   return { loading, errors, data };
 };

@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useHashNavigation = () => {
-  const hash = window.location.hash.split(/:/);
-  const url = hash[0];
-  const [page, setPage] = useState(url);
-  const [param, setParam] = useState(hash[1] ?? "");
+  const hash = window.location.hash;
+  const [page, setPage] = useState(hash);
+  const cleanHash = useMemo(() => hash.replace("#", ""), [page]);
   console.log(hash);
   const changePage = useCallback(
     (hash: string) => {
@@ -13,14 +12,9 @@ export const useHashNavigation = () => {
     [page]
   );
   const handlePageChange = useCallback(() => {
-    const newURL = window.location.hash.split(":");
-    const url = newURL[0];
-    console.log(newURL);
-    if (newURL.length > 0) {
-      setParam(() => newURL[1]);
-      setPage(() => newURL[0]);
-    } else if (page !== url) {
-      setPage(url);
+    const newURL = window.location.hash;
+    if (page !== newURL) {
+      setPage(newURL);
     }
   }, [page]);
   useEffect(() => {
@@ -28,8 +22,8 @@ export const useHashNavigation = () => {
     return () => window.removeEventListener("hashchange", handlePageChange);
   }, [page]);
   return {
-    page: page.replace("#", "").toLowerCase() || "home",
-    param,
+    page: cleanHash ? cleanHash.toLowerCase().split(/:/)[0] : "home",
+    param: cleanHash ? cleanHash.split(":")[1] ?? "" : "",
     changePage,
   };
 };

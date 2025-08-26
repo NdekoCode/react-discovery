@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useDocumentTitle } from "@/hooks/use-document-title";
 import { useFetch } from "@/hooks/use-fetch";
 import { useHashNavigation } from "@/hooks/use-navigation-page";
 import { Post } from "@/lib/types/generics/posts";
@@ -11,6 +12,7 @@ const PostPage = () => {
     `https://dummyjson.com/posts/${param}`
   );
 
+  useDocumentTitle(post?.title);
   if (loading)
     return (
       <div className="fixed inset-0 bg-black/10 flex items-center justify-center">
@@ -70,6 +72,7 @@ const PostPage = () => {
           {post?.body}
         </h3>
       </div>
+      <a href={`#post:${(post?.id || 0) + 1}`}>Article suivant</a>
     </div>
   );
 };
