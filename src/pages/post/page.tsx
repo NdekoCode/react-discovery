@@ -1,18 +1,57 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 import { useFetch } from "@/hooks/use-fetch";
 import { useHashNavigation } from "@/hooks/use-navigation-page";
+import { useToggle } from "@/hooks/use-toggle";
 import { Post } from "@/lib/types/generics/posts";
+import { postSchema, TPost } from "@/lib/types/schemas/post.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const PostPage = () => {
   const { param } = useHashNavigation();
   console.log("PARAM", param);
+  const [isEditing, toggleEditing] = useToggle();
   const { loading, data: post } = useFetch<Post>(
     `https://dummyjson.com/posts/${param}`
   );
+  const form = useForm<TPost>({
+    resolver: zodResolver(postSchema),
+    defaultValues: {
+      title: "",
+      body: "",
+    },
+  });
+
+  useEffect(() => {
+    if (post) {
+      form.reset({
+        title: post.title,
+        body: post.body,
+      });
+    }
+  }, [post, form]);
 
   useDocumentTitle(post?.title);
+  const onSubmit = (value: Partial<TPost>) => {
+    console.log("Form Value", value);
+  };
   if (loading)
     return (
       <div className="fixed inset-0 bg-black/10 flex items-center justify-center">
@@ -56,24 +95,80 @@ const PostPage = () => {
     );
   }
   return (
-    <div className="container max-w-7xl mx-auto px-4 mt-5">
-      <div className="aspect-w-16 aspect-h-9">
-        <img
-          className="w-full rounded-2xl max-w-7xl max-h-96 mx-auto object-cover rounded-t-xl"
-          src={`https://picsum.photos/id/${post?.id}/4704/3136`}
-          alt={post?.title}
-        />
+    <>
+      <div className="container max-w-7xl mx-auto px-4 mt-5">
+        <div className="aspect-w-16 aspect-h-9">
+          <img
+            className="w-full rounded-2xl max-w-7xl max-h-96 mx-auto object-cover rounded-t-xl"
+            src={`https://picsum.photos/id/${post?.id}/4704/3136`}
+            alt={post?.title}
+          />
+        </div>
+        <div className="p-4 md:p-5">
+          <p className="mt-2 text-xs uppercase text-gray-600 dark:text-neutral-400">
+            {post?.title}
+          </p>
+          <h3 className="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
+            {post?.body}
+          </h3>
+        </div>
+        <div className="flex gap-2 items-center">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button onClick={() => toggleEditing}>
+                    Editer l'article
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl mx-auto">
+                  <DialogHeader>
+                    <DialogTitle>Edit an article</DialogTitle>
+                    <DialogDescription>
+                      Make sure to change the post here. Click Save when you
+                      done
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="">
+                    <div className="grid gap-4">
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Label>Title</Label>
+                            <Input {...field} />
+                          </FormItem>
+                        )}
+                      ></FormField>
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="body"
+                          render={({ field }) => (
+                            <FormItem>
+                              <Label>Content</Label>
+                              <Textarea {...field} />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button type="submit">Save Changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </form>
+          </Form>
+          <a href={`#post:${(post?.id || 0) + 1}`}>Article suivant</a>
+        </div>
       </div>
-      <div className="p-4 md:p-5">
-        <p className="mt-2 text-xs uppercase text-gray-600 dark:text-neutral-400">
-          {post?.title}
-        </p>
-        <h3 className="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
-          {post?.body}
-        </h3>
-      </div>
-      <a href={`#post:${(post?.id || 0) + 1}`}>Article suivant</a>
-    </div>
+    </>
   );
 };
 
