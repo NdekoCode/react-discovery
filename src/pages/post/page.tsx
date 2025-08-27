@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,8 @@ const PostPage = () => {
   const { loading, data: post } = useFetch<Post>(
     `https://dummyjson.com/posts/${param}`
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [localPost, setLocalPost] = useState<Post | null>(null);
   const form = useForm<TPost>({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -41,6 +43,7 @@ const PostPage = () => {
 
   useEffect(() => {
     if (post) {
+      setLocalPost(post);
       form.reset({
         title: post.title,
         body: post.body,
@@ -50,6 +53,7 @@ const PostPage = () => {
 
   useDocumentTitle(post?.title);
   const onSubmit = async (value: Partial<TPost>) => {
+    setIsSubmitting(true);
     console.log("Form Value", value);
     try {
       const res = await fetch(`https://dummyjson.com/posts/${post?.id}`, {
@@ -59,12 +63,19 @@ const PostPage = () => {
         },
         body: JSON.stringify(value),
       });
+      const data = await res.json();
       console.log("LOG DATA", res);
+      setLocalPost(data);
+      console.log("DATA", data);
+      toggleEditing();
       if (res.ok) {
         console.log("Send");
       }
+      setIsSubmitting(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   if (loading)
@@ -115,20 +126,22 @@ const PostPage = () => {
         <div className="aspect-w-16 aspect-h-9">
           <img
             className="w-full rounded-2xl max-w-7xl max-h-96 mx-auto object-cover rounded-t-xl"
-            src={`https://picsum.photos/id/${post?.id}/4704/3136`}
-            alt={post?.title}
+            src={`https://picsum.photos/id/${
+              localPost?.id || post?.id
+            }/4704/3136`}
+            alt={localPost?.title || post?.title}
           />
         </div>
         <div className="p-4 md:p-5">
           <p className="mt-2 text-xs uppercase text-gray-600 dark:text-neutral-400">
-            {post?.title}
+            {localPost?.title || post?.title}
           </p>
           <h3 className="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
-            {post?.body}
+            {localPost?.body || post?.body}
           </h3>
         </div>
         <div className="flex gap-2 items-center">
-          <Dialog>
+          <Dialog open={isEditing} onOpenChange={toggleEditing}>
             <DialogTrigger asChild>
               <Button onClick={() => toggleEditing}>Editer l'article</Button>
             </DialogTrigger>
@@ -172,7 +185,18 @@ const PostPage = () => {
                     <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit">Save Changes</Button>
+                    <Button type="submit" className="gap-0.5">
+                      Save Changes{" "}
+                      {isSubmitting && (
+                        <span
+                          className="animate-spin inline-block size-4 border-3 border-blue-700 border-t-transparent text-white rounded-full"
+                          role="status"
+                          aria-label="loading"
+                        >
+                          <span className="sr-only">Loading...</span>
+                        </span>
+                      )}
+                    </Button>
                   </DialogFooter>
                 </form>
               </Form>
