@@ -49,8 +49,23 @@ const PostPage = () => {
   }, [post, form]);
 
   useDocumentTitle(post?.title);
-  const onSubmit = (value: Partial<TPost>) => {
+  const onSubmit = async (value: Partial<TPost>) => {
     console.log("Form Value", value);
+    try {
+      const res = await fetch(`https://dummyjson.com/posts/${post?.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value),
+      });
+      console.log("LOG DATA", res);
+      if (res.ok) {
+        console.log("Send");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (loading)
     return (
@@ -113,15 +128,13 @@ const PostPage = () => {
           </h3>
         </div>
         <div className="flex gap-2 items-center">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button onClick={() => toggleEditing}>
-                    Editer l'article
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-3xl mx-auto">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button onClick={() => toggleEditing}>Editer l'article</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl mx-auto">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <DialogHeader>
                     <DialogTitle>Edit an article</DialogTitle>
                     <DialogDescription>
@@ -140,7 +153,7 @@ const PostPage = () => {
                             <Input {...field} />
                           </FormItem>
                         )}
-                      ></FormField>
+                      />
                       <div className="grid gap-3">
                         <FormField
                           control={form.control}
@@ -161,10 +174,10 @@ const PostPage = () => {
                     </DialogClose>
                     <Button type="submit">Save Changes</Button>
                   </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </form>
-          </Form>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
           <a href={`#post:${(post?.id || 0) + 1}`}>Article suivant</a>
         </div>
       </div>
