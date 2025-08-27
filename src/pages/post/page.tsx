@@ -28,11 +28,12 @@ const PostPage = () => {
   const { param } = useHashNavigation();
   console.log("PARAM", param);
   const [isEditing, toggleEditing] = useToggle();
-  const { loading, data: post } = useFetch<Post>(
-    `https://dummyjson.com/posts/${param}`
-  );
+  const {
+    loading,
+    data: post,
+    setData,
+  } = useFetch<Post>(`https://dummyjson.com/posts/${param}`);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [localPost, setLocalPost] = useState<Post | null>(null);
   const form = useForm<TPost>({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -43,7 +44,6 @@ const PostPage = () => {
 
   useEffect(() => {
     if (post) {
-      setLocalPost(post);
       form.reset({
         title: post.title,
         body: post.body,
@@ -65,7 +65,7 @@ const PostPage = () => {
       });
       const data = await res.json();
       console.log("LOG DATA", res);
-      setLocalPost(data);
+      setData(data);
       console.log("DATA", data);
       toggleEditing();
       if (res.ok) {
@@ -126,18 +126,16 @@ const PostPage = () => {
         <div className="aspect-w-16 aspect-h-9">
           <img
             className="w-full rounded-2xl max-w-7xl max-h-96 mx-auto object-cover rounded-t-xl"
-            src={`https://picsum.photos/id/${
-              localPost?.id || post?.id
-            }/4704/3136`}
-            alt={localPost?.title || post?.title}
+            src={`https://picsum.photos/id/${post?.id || post?.id}/4704/3136`}
+            alt={post?.title}
           />
         </div>
         <div className="p-4 md:p-5">
           <p className="mt-2 text-xs uppercase text-gray-600 dark:text-neutral-400">
-            {localPost?.title || post?.title}
+            {post?.title}
           </p>
           <h3 className="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
-            {localPost?.body || post?.body}
+            {post?.body}
           </h3>
         </div>
         <div className="flex gap-2 items-center">
