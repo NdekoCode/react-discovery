@@ -1,8 +1,12 @@
+import { ThemeContextConsumer } from "@/context/theme-context";
 import { useHashNavigation } from "@/hooks/use-navigation-page";
 import { cn } from "@/lib/utils";
 
+import { Button } from "./ui/button";
+
 export const Navbar = () => {
   const { page } = useHashNavigation();
+  const { theme, toggleTheme } = ThemeContextConsumer();
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -77,6 +81,12 @@ export const Navbar = () => {
         </div>
       </nav>
       {page}
+      <div className="container mt-5 flex flex-col gap-5">
+        <span>{theme}</span>
+        <Button onClick={toggleTheme} className="w-fit">
+          Theme Toggle
+        </Button>
+      </div>
     </>
   );
 };
