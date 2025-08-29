@@ -37,7 +37,7 @@ export const useTodo = (initialTodos: TTodo[] = []) => {
     []
   );
   const updateTodo = useCallback(
-    (todo: TTodo) => dispatch({ type: "UPDATE_TODO", payload: todo }),
+    (todo: Partial<TTodo>) => dispatch({ type: "UPDATE_TODO", payload: todo }),
     []
   );
   return { todos, addTodo, removeTodo, updateTodo };

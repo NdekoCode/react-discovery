@@ -1,11 +1,21 @@
-import React from "react";
+import { ChangeEvent } from "react";
 
 import { useTodo } from "@/hooks/use-todo";
+import { todos as todosData } from "@/lib/data/todos";
+import { TTodo } from "@/lib/types/generics/todos";
 
 const Todos = () => {
-  const { todos } = useTodo();
+  const { todos, updateTodo, removeTodo } = useTodo(todosData);
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>, todo: TTodo) => {
+    const value =
+      e.target instanceof HTMLInputElement &&
+      e.target.type === "checkbox" &&
+      e.target.checked;
+    updateTodo({ ...todo, isDone: !!value });
+  };
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-16">
+      {JSON.stringify(todos, null, 2)}
       <div className="px-4 py-2">
         <h1 className="text-gray-800 font-bold text-2xl uppercase">
           To-Do List
@@ -30,12 +40,13 @@ const Todos = () => {
         <ul className="divide-y divide-gray-200 px-4">
           {todos.map((todo) => (
             <li className="py-4" key={todo.id}>
-              <div className="flex items-center">
+              <div className="flex items-center gap-2 w-full">
                 <input
                   id={"todo-" + todo.id}
                   name={"todo-" + todo.id}
                   type="checkbox"
                   className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+                  onChange={(e) => handleClick(e, todo)}
                 />
                 <label
                   htmlFor={"todo-" + todo.id}
@@ -43,6 +54,21 @@ const Todos = () => {
                 >
                   <span className="text-lg font-medium">{todo.title}</span>
                 </label>
+                <div className="ml-auto flex items-center gap-2">
+                  <button
+                    className="cursor-pointer ml-auto"
+                    onClick={() => removeTodo(todo.id!)}
+                  >
+                    x
+                  </button>
+
+                  <button
+                    className="cursor-pointer ml-auto"
+                    onClick={() => removeTodo(todo.id!)}
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
             </li>
           ))}
